@@ -1,0 +1,20 @@
+{
+  "redis": {
+    "uri": "@@MMK_REDIS_URI",
+    "useSentinel": "@@MMK_REDIS_USE_SENTINEL",
+    "nodes": "@@MMK_REDIS_SENTINEL_NODES",
+    "sentinelPort": "@@MMK_REDIS_SENTINEL_PORT",
+    "master": "@@MMK_REDIS_SENTINEL_MASTER",
+    "sentinelPassword": "@@MMK_REDIS_SENTINEL_PASSWORD"
+  },
+  "puppeteer": {
+    "args": [
+      "--headless",
+      "--no-sandbox",
+      "--disable-gpu",
+      "--single-process",
+      "--no-zygote"
+    ],
+    "timeout": 300000
+  }
+}

