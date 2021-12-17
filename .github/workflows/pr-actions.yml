@@ -1,0 +1,24 @@
+name: pr-actions
+on: [pull_request]
+
+jobs:
+  backend-jest-test:
+    runs-on: ubuntu-latest
+    container: buildkite/puppeteer:5.2.1
+
+    steps:
+      - name: Check out repo code
+        uses: actions/checkout@v2
+
+      - name: Install deps
+        run: yarn install --frozen-lockfile
+        env:
+          NODE_ENV: test
+      - name: Lint
+        run: yarn lint
+      - name: test
+        run: |
+          yarn start-test &
+          yarn jest
+        env:
+          NODE_ENV: test
