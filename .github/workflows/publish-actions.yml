@@ -12,6 +12,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      - name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v3
+        with:
+          images: target/mmk-js-scope
+          tags: type=ref,event=tag
+
       - name: Log into Docker Hub
         uses: docker/login-action@v1
         with:
