@@ -14,12 +14,11 @@ ENV APP_HOME=/app
 COPY package.json yarn.lock $APP_HOME/
 COPY config $APP_HOME/config
 
+WORKDIR $APP_HOME
 
 RUN yarn install
 
 COPY . $APP_HOME
-
-WORKDIR $APP_HOME
 
 RUN yarn build
 
