@@ -12,7 +12,7 @@
     "bull": "^3.29.0",
     "ioredis": "^4.27.2",
     "node-config-ts": "^3.0.4",
-    "puppeteer": "^5.5.0",
+    "puppeteer": "^13.0.1",
     "vm2": "^3.9.2"
   },
   "devDependencies": {
