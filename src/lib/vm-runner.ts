@@ -1,7 +1,7 @@
 import events from 'events'
 import crypto from 'crypto'
 import { VM } from 'vm2'
-import puppeteer, { Page, Browser, ConsoleMessage, Worker, Response } from 'puppeteer'
+import puppeteer, { Page, Browser, ConsoleMessage, WebWorker, HTTPResponse } from 'puppeteer'
 
 import hooks from '../hooks.js'
 import {
@@ -21,14 +21,6 @@ import {
   ScanError,
   WebFunctionCallEvent
 } from '@merrymaker/types'
-
-declare module 'puppeteer' {
-  export interface PageEventObj {
-    screenshot: string
-    logMessage: string
-    htmlsnapshot: HtmlSnapshot
-  }
-}
 
 export default class vmRunner {
   // puppeteer browser instance
@@ -95,15 +87,18 @@ export default class vmRunner {
       // handle responses
       this.page.on('response', this.responseHandler)
       // Custom events
-      this.page.on('htmlsnapshot', (snap: HtmlSnapshot) => {
+      // https://github.com/puppeteer/puppeteer/issues/6839 - custom event types not supported
+      /* eslint-disable @typescript-eslint/no-explicit-any */
+      this.page.on('htmlsnapshot' as any, (snap: HtmlSnapshot) => {
         this.htmlSnapshotEvent(snap)
       })
-      this.page.on('screenshot', (payload: string) =>
+      this.page.on('screenshot' as any, (payload: string) =>
         this.screenshotEvent({ payload })
       )
-      this.page.on('logMessage', (message: string) =>
+      this.page.on('logMessage' as any, (message: string) =>
         this.logMessage({ message })
       )
+      /* eslint-enable @typescript-eslint/no-explicit-any */
       // handle errors on the page
       this.page.on('pageerror', (err: Error) => {
         this.pageError({ message: err.message })
@@ -113,7 +108,7 @@ export default class vmRunner {
         this.consoleMessage({ message: message.text() })
       })
       // handle web worker created
-      this.page.on('workercreated', (worker: Worker) => {
+      this.page.on('workercreated', (worker: WebWorker) => {
         this.workerCreated({
           url: worker.url(),
           page: this.page.url()
@@ -181,7 +176,7 @@ export default class vmRunner {
    *  Handles all browser responses and emits `script-request`,
    *  and `response` events
    */
-  private responseHandler = async (res: Response) => {
+  private responseHandler = async (res: HTTPResponse) => {
     const req = res.request()
     const url = res.url()
     let text = ''
