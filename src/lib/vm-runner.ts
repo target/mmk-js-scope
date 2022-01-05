@@ -22,14 +22,6 @@ import {
   WebFunctionCallEvent
 } from '@merrymaker/types'
 
-declare module 'puppeteer' {
-  export interface PageEventObj {
-    screenshot: string
-    logMessage: string
-    htmlsnapshot: HtmlSnapshot
-  }
-}
-
 export default class vmRunner {
   // puppeteer browser instance
   browser: Browser
