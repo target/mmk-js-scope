@@ -1,7 +1,7 @@
 import events from 'events'
 import crypto from 'crypto'
 import { VM } from 'vm2'
-import puppeteer, { Page, Browser, ConsoleMessage, WebWorker, HTTPResponse } from 'puppeteer'
+import puppeteer, { Page, Browser, ConsoleMessage, WebWorker, HTTPResponse, HTTPRequest } from 'puppeteer'
 
 import hooks from '../hooks.js'
 import {
@@ -103,6 +103,11 @@ export default class vmRunner {
       this.page.on('pageerror', (err: Error) => {
         this.pageError({ message: err.message })
       })
+
+      this.page.on('requestfailed', (request: HTTPRequest) => {
+        this.pageError({ message: `Request failed: ${request.url()} - ${request.failure().errorText}` })
+      })
+
       // handle console log messages
       this.page.on('console', (message: ConsoleMessage) => {
         this.consoleMessage({ message: message.text() })

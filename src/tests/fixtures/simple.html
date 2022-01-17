@@ -17,6 +17,7 @@
   console.log('simple.html')
   var moo = new Image()
   moo.src = "image.png"
+  moo.onload = function () { var a = 1; }
 
   new FontFace('w', 'url(//foo.com/foo.woff)')
 

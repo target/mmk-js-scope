@@ -69,6 +69,19 @@ describe('Simple Hooks', () => {
     ).toBe(true)
   })
 
+  it('should capture Image.onload', async () => {
+    expect(
+      browserWorker.events.some(e => {
+        const payload = e.payload as WebFunctionCallEvent
+        return (
+          e.event === 'function-call' &&
+          payload.func === 'Image.onload' &&
+          payload.args === 'function () { var a = 1; }'
+        )
+      })
+    ).toBe(true)
+  })
+
   it('should capture innerHTML', () => {
     expect(
       browserWorker.events.some(e => {
