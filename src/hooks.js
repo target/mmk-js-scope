@@ -54,8 +54,25 @@ module.exports = function() {
   var isNative = function(f) {
     return (
       typeof f === 'function' &&
+      typeof f.toString === 'function' &&
       f.toString() === 'function () { [native code] }'
     )
+  }
+
+  var stringify = function (f) {
+    switch (typeof f) {
+      case 'function':
+        if (isNative(f))
+          return `${f}`
+      // eslint-disable-next-line no-fallthrough
+      case 'object':
+        return f.toString()
+      case 'string':
+        return f
+      case 'number':
+      default:
+        return `${f}`
+    }
   }
 
   var oldEventListener = window.addEventListener
@@ -64,7 +81,7 @@ module.exports = function() {
       dispatchHook({
         func: 'window.addEventListener',
         args: arguments[0],
-        funcSource: arguments[1].toString(),
+        funcSource: stringify(arguments[1]),
         trace: __trace
       })
     }
@@ -77,7 +94,7 @@ module.exports = function() {
       dispatchHook({
         func: 'document.addEventListener',
         args: arguments[0],
-        funcSource: arguments[1].toString(),
+        funcSource: stringify(arguments[1]),
         trace: __trace
       })
     }
@@ -100,7 +117,7 @@ module.exports = function() {
           rel: this.rel,
           name
         },
-        funcSource: arguments[1].toString(),
+        funcSource: stringify(arguments[1]),
         trace: __trace
       })
     }
@@ -175,6 +192,12 @@ module.exports = function() {
             dispatchHook({
               func: 'Image.src',
               args: val,
+              trace: __trace
+            })
+          } else if (prop === 'onload') {
+            dispatchHook({
+              func: 'Image.onload',
+              args: stringify(val),
               trace: __trace
             })
           }
