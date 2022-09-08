@@ -1,7 +1,24 @@
 import events from 'events'
 import crypto from 'crypto'
 import { VM } from 'vm2'
-import puppeteer, { Page, Browser, ConsoleMessage, WebWorker, HTTPResponse, HTTPRequest } from 'puppeteer'
+import puppeteer, {
+  Page,
+  Browser,
+  ConsoleMessage,
+  WebWorker,
+  HTTPResponse,
+  HTTPRequest
+} from 'puppeteer'
+
+export type RunnerOpts = {
+  code: string
+  scan_id: string
+  test: boolean
+  config: {
+    browserAgs: string[]
+    timeout: number
+  }
+}
 
 import hooks from '../hooks.js'
 import {
@@ -29,6 +46,8 @@ export default class vmRunner {
   vm: VM
   // Scan ID
   scanID: string
+  // run in test mode
+  test: boolean
   // event emitter for all browser events
   browserEvent: events.EventEmitter
   // current page
@@ -50,12 +69,14 @@ export default class vmRunner {
    *  and runs puppeteer script
    */
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-  public runner = async (
-    code: string,
-    scanID: string,
-    config: { browserAgs: string[]; timeout: number }
-  ) => {
-    this.scanID = scanID
+  public runner = async ({
+    scan_id,
+    code,
+    test,
+    config,
+  }) => {
+    this.scanID = scan_id
+    this.test = test
     this.totalEvents = 0
     this.events = []
     this.failure = ''
@@ -105,7 +126,11 @@ export default class vmRunner {
       })
 
       this.page.on('requestfailed', (request: HTTPRequest) => {
-        this.pageError({ message: `Request failed: ${request.url()} - ${request.failure().errorText}` })
+        this.pageError({
+          message: `Request failed: ${request.url()} - ${
+            request.failure().errorText
+          }`
+        })
       })
 
       // handle console log messages
@@ -173,7 +198,7 @@ export default class vmRunner {
   private async htmlSnapshot(page: Page): Promise<void> {
     const url = page.url()
     const html = await page.content()
-    page.emit('htmlsnapshot', {url, html})
+    page.emit('htmlsnapshot', { url, html })
   }
 
   /**
@@ -232,6 +257,7 @@ export default class vmRunner {
     this.totalEvents += 1
     this.browserEvent.emit('scan-event', {
       scanID: this.scanID,
+      test: this.test,
       type: eType,
       payload
     } as ScanEvent)
@@ -250,7 +276,7 @@ export default class vmRunner {
   private active() {
     this.browserEvent.emit('scan-event', {
       scanID: this.scanID,
-      type: 'active',
+      type: 'active'
     })
   }
 

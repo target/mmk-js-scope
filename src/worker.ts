@@ -34,9 +34,14 @@ async function work(job: Job) {
     await job.discard()
     throw new Error('No source')
   }
-  return browserWorker.runner(source, job.data.scan_id, {
-    browserAgs: config.puppeteer.args,
-    timeout: config.puppeteer.timeout
+  return browserWorker.runner({
+    code: source,
+    scan_id: job.data.scan_id,
+    test: job.data.test,
+    config: {
+      browserAgs: config.puppeteer.args,
+      timeout: config.puppeteer.timeout
+    }
   })
 }
 
