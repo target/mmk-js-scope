@@ -4,7 +4,7 @@ on: [pull_request]
 jobs:
   backend-jest-test:
     runs-on: ubuntu-latest
-    container: buildkite/puppeteer:5.2.1
+    container: satantime/puppeteer-node:16-bullseye-slim
 
     steps:
       - name: Check out repo code

@@ -1,4 +1,4 @@
-FROM node:12.18.3-slim
+FROM node:16.15.0-slim
 
 RUN apt-get update -y
 
@@ -26,7 +26,7 @@ RUN rm -rf node_modules
 RUN yarn install --prod
 
 
-FROM node:12.18.3-slim
+FROM node:16.15.0-slim
 
 RUN apt-get update \
     && apt-get install -y wget gnupg \
