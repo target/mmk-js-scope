@@ -18,9 +18,14 @@ describe('Simple Hooks', () => {
         done()
       }
     })
-    browserWorker.runner(source, 'test-run', {
-      browserAgs: config.puppeteer.args,
-      timeout: config.puppeteer.timeout
+    browserWorker.runner({
+      code: source,
+      scan_id: 'test-run123',
+      test: false,
+      config: {
+        browserAgs: config.puppeteer.args,
+        timeout: config.puppeteer.timeout
+      }
     })
   })
 
