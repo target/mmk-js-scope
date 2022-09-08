@@ -565,12 +565,12 @@
     "@jridgewell/resolve-uri" "^3.0.3"
     "@jridgewell/sourcemap-codec" "^1.4.10"
 
-"@merrymaker/types@^1.0.6":
-  version "1.0.6"
-  resolved "https://registry.yarnpkg.com/@merrymaker/types/-/types-1.0.6.tgz#8c2410decac82099b65c94b9692b6b747f7ae77a"
-  integrity sha512-AlSLrAUh6rSnp1ckhgUrt4m9DaSfphI4zDVLjNZ+uCIePhj4+eR0qn03tOgVMe3JqhpvpEGVG9F6LjVcBw2Uuw==
+"@merrymaker/types@^1.0.10":
+  version "1.0.10"
+  resolved "https://registry.yarnpkg.com/@merrymaker/types/-/types-1.0.10.tgz#4691e42a8bc836367a76e2efe3f47088c6acf30f"
+  integrity sha512-MFSmUP2SNQq5A9/yw85yyJyJYt9aBUwrtqOgrEXDDt/9XZJH4ufFv3wuro021bJhOCkBEI81s9V5mz7dwuNv7w==
   dependencies:
-    "@types/puppeteer" "^3.0.1"
+    "@types/puppeteer" "^5.4.4"
 
 "@nodelib/fs.scandir@2.1.5":
   version "2.1.5"
@@ -739,13 +739,6 @@
   version "2.4.4"
   resolved "https://registry.yarnpkg.com/@types/prettier/-/prettier-2.4.4.tgz#5d9b63132df54d8909fce1c3f8ca260fdd693e17"
   integrity sha512-ReVR2rLTV1kvtlWFyuot+d1pkpG2Fw/XKE3PDAdj57rbM97ttSp9JZ2UsP+2EHTylra9cUf6JA7tGwW1INzUrA==
-
-"@types/puppeteer@^3.0.1":
-  version "3.0.7"
-  resolved "https://registry.yarnpkg.com/@types/puppeteer/-/puppeteer-3.0.7.tgz#43e5baa3a2d515d895d5a01b50b2b523ff76b966"
-  integrity sha512-fwmQHrM+CbJd/ZUD4IBXmEKMF3nPMLQL+CaTSfzjo/ayElg8AIzFLcJZ81nCFR47RxLJRdAuSydtlky7N1cwkw==
-  dependencies:
-    "@types/node" "*"
 
 "@types/puppeteer@^5.4.4":
   version "5.4.5"
